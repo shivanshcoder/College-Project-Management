@@ -72,7 +72,7 @@ public class Dashboard extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 try {
                     JOptionPane.showMessageDialog(null, "Add Student");
-                    new AddStudent().setVisible(true);
+                    new ProjectSubmission().setVisible(true);
                 } catch (Exception e) {
                 }
             }

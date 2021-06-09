@@ -81,6 +81,9 @@ public class conn{
     public ArrayList< String[] > subject_list(){
         return get_id_name_pair_list("subject");
     } 
+    public ArrayList< String[] > project_list(){
+        return get_id_name_pair_list("project");
+    } 
 
 
     
