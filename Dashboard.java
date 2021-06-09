@@ -10,9 +10,6 @@ import java.awt.event.*;
 
 public class Dashboard extends JFrame {
 
-    public static void main(String[] args) {
-        new Dashboard().setVisible(true);
-    }
 
     public Dashboard() {
         super("HOTEL MANAGEMENT SYSTEM");
@@ -46,6 +43,7 @@ public class Dashboard extends JFrame {
         StudentDashboard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 //new Reception();
+                new AddProject().setVisible(true);;
             }
         });
 
@@ -67,33 +65,20 @@ public class Dashboard extends JFrame {
             }
         });
         
-        JMenuItem SubAdminMenu2 = new JMenuItem("ADD SUBJECT");
+        JMenuItem SubAdminMenu2 = new JMenuItem("ADD Student");
         AdminMenu.add(SubAdminMenu2);
         
         SubAdminMenu2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 try {
-                    JOptionPane.showMessageDialog(null, "Add Subject");
-                    // new AddRoom().setVisible(true);
+                    JOptionPane.showMessageDialog(null, "Add Student");
+                    new AddStudent().setVisible(true);
                 } catch (Exception e) {
                 }
             }
         });
 
         
-
-        // JMenuItem FlightDetailshello3 = new JMenuItem("ADD PROJECT");
-        // AdminMenu.add(FlightDetailshello3);
-
-        // FlightDetailshello3.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent ae) {
-        //         try {
-        //             //new AddDrivers().setVisible(true);
-        //         } catch (Exception e) {
-        //         }
-        //     }
-        // });
-
         setSize(1950, 1090);
         setVisible(true);
         getContentPane().setBackground(Color.WHITE);

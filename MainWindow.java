@@ -1,6 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
+import java.lang.invoke.TypeDescriptor;
 
 public class MainWindow extends JFrame implements ActionListener {
 
@@ -70,6 +72,17 @@ public class MainWindow extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
+    
+        // try{
+
+        //     if(Desktop.isDesktopSupported()){
+        //         File file = new File("javaflow.pdf");
+        //         Desktop.getDesktop().open(file);
+        //     }
+        // }
+        // catch(Exception e){
+        //     e.printStackTrace();
+        // }
         MainWindow window = new MainWindow();
         window.setVisible(true);
     }

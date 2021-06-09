@@ -4,23 +4,29 @@ import java.awt.EventQueue;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
-public class AddTeacher extends JFrame { // Third Frame
+import com.mysql.cj.conf.ConnectionUrlParser.Pair;
 
-    JTextField nameField, idField;
-    JPasswordField passwordField;
+public class AddProject extends JFrame { // Third Frame
 
-    public AddTeacher() {
+    JTextField nameField;
+    JComboBox subjectField;
+    // JComboBox teacherIDField;
+    ArrayList< String[] > subjectList;
+
+    public AddProject() {
         getContentPane().setForeground(Color.BLUE);
         getContentPane().setBackground(Color.WHITE);
-        setTitle("ADD Teacher Account");
+        setTitle("ADD Project");
 
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(778, 486);
         getContentPane().setLayout(null);
 
-        JLabel nameLabel = new JLabel("NAME");
+        JLabel nameLabel = new JLabel("PROJECT NAME");
         nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
         nameLabel.setBounds(60, 30, 150, 27);
         add(nameLabel);
@@ -30,24 +36,29 @@ public class AddTeacher extends JFrame { // Third Frame
         add(nameField);
         
 
-        JLabel idLabel = new JLabel("ID");
-        idLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        idLabel.setBounds(60, 60, 150, 27);
-        add(idLabel);
+        // JLabel subjectLabel = new JLabel("SUBJECT");
+        // subjectLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        // subjectLabel.setBounds(60, 60, 150, 27);
+        // add(subjectLabel);
 
-        idField = new JTextField();
-        idField.setBounds(200, 60, 150, 27);
-        add(idField);
+        // subjectField = new JTextField();
+        // subjectField.setBounds(200, 60, 150, 27);
+        // add(subjectField);
 
 
-        JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        passwordLabel.setBounds(60, 90, 150, 27);
-        add(passwordLabel);
+        JLabel subjectLabel = new JLabel("Subject");
+        subjectLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        subjectLabel.setBounds(60, 60, 150, 27);
+        add(subjectLabel);
 
-        passwordField = new JPasswordField();
-        passwordField.setBounds(200, 90, 150, 27);
-        add(passwordField);
+        conn c = new conn();
+        subjectList = c.subject_list();
+
+        subjectField = new JComboBox<String>(subjectList.get(0));
+        subjectField.setBounds(200, 60, 150, 27);
+        add(subjectField);
+
+
 
         JButton Next = new JButton("SAVE");
         Next.setBounds(200, 120, 150, 30);
@@ -55,9 +66,7 @@ public class AddTeacher extends JFrame { // Third Frame
         Next.setForeground(Color.WHITE);
         add(Next);
 
-
         setVisible(true);
-
 
         JLabel AddPassengers = new JLabel("ADD Teacher Account");
         AddPassengers.setForeground(Color.BLUE);
@@ -65,7 +74,6 @@ public class AddTeacher extends JFrame { // Third Frame
         AddPassengers.setBounds(450, 24, 442, 35);
         add(AddPassengers);
 
-        
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("images/ProjectManagement.png"));
         Image i3 = i1.getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT);
         ImageIcon i2 = new ImageIcon(i3);
@@ -78,15 +86,20 @@ public class AddTeacher extends JFrame { // Third Frame
 
 
                 try {
-                    if(nameField.getText().equals("") || idField.getText().equals("") || passwordField.getText().equals("")){
-                        JOptionPane.showMessageDialog(null, "Fields can't be empty");
+                    if(!(nameField.getText().equals(""))){
+
+                        conn c = new conn();
+                        
+                        int subject_id = subjectField.getSelectedIndex();
+                        
+                        c.add_project(nameField.getText(), subjectList.get(1)[subject_id], Login.logged_in_username);
+                        // c.add_project(nameField.getText(),subjectLabel.getText(), Login.logged_in_username);
+                        
+                        JOptionPane.showMessageDialog(null, "Project Added");
+                        setVisible(false);
                     }
                     else{
-                        conn c = new conn();
-                        c.add_teacher(nameField.getText(),idField.getText(), passwordField.getText());
-                        
-                        JOptionPane.showMessageDialog(null, "Teacher Added");
-                        setVisible(false);
+                        JOptionPane.showMessageDialog(null, "Fields can't be empty");
                     }
 
                 } catch (Exception e) {
