@@ -45,6 +45,13 @@ public class conn{
         Statement s = c.createStatement();
         s.executeUpdate(q); 
     }
+
+    public void submit_project(int project_id, int student_id, String reportFile )throws SQLException{
+        String q = "insert into project_submission(project_id, student_id, report_pdf) values ('" + project_id + "', '" + student_id + "', '" + reportFile + "');";
+        
+        Statement s = c.createStatement();
+        s.executeUpdate(q); 
+    }
     
     
     private ArrayList< String[] > get_id_name_pair_list(String tableName){

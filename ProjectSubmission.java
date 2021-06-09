@@ -21,6 +21,8 @@ public class ProjectSubmission extends JFrame { // Third Frame
     JComboBox projectField;
     JComboBox studentField;
 
+    File reportFile = null;
+
     // JComboBox teacherIDField;
     ArrayList<String[]> projectList;
     ArrayList<String[]> studentList;
@@ -48,15 +50,6 @@ public class ProjectSubmission extends JFrame { // Third Frame
         projectField.setBounds(200, 30, 150, 27);
         add(projectField);
         
-        // JLabel subjectLabel = new JLabel("SUBJECT");
-        // subjectLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        // subjectLabel.setBounds(60, 60, 150, 27);
-        // add(subjectLabel);
-        
-        // subjectField = new JTextField();
-        // subjectField.setBounds(200, 60, 150, 27);
-        // add(subjectField);
-        
         
         JLabel subjectLabel = new JLabel("STUDENT");
         subjectLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -80,22 +73,25 @@ public class ProjectSubmission extends JFrame { // Third Frame
 
         reportPath.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ar){
+
                 JFileChooser chooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
                 chooser.setFileFilter(filter);
                 int returnVal = chooser.showOpenDialog(reportPath.getParent());
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
-                    
-                    System.out.println("You chose to open this file: " +
-                        chooser.getSelectedFile().getName());
-                    File newF = new File("submitted_files/"+chooser.getSelectedFile().getName());
-                    try{
 
-                        Files.copy(chooser.getSelectedFile().toPath(), newF.toPath(),StandardCopyOption.REPLACE_EXISTING);
-                    }
-                    catch(IOException e){
-                        e.printStackTrace();
-                    }
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    reportFile = chooser.getSelectedFile();
+                    
+                    // System.out.println("You chose to open this file: " +
+                    //     chooser.getSelectedFile().getName());
+                    // File newF = new File("submitted_files/"+chooser.getSelectedFile().getName());
+                    // try{
+
+                    //     Files.copy(chooser.getSelectedFile().toPath(), newF.toPath(),StandardCopyOption.REPLACE_EXISTING);
+                    // }
+                    // catch(IOException e){
+                    //     e.printStackTrace();
+                    // }
                 }
 
             }
@@ -127,26 +123,37 @@ public class ProjectSubmission extends JFrame { // Third Frame
             public void actionPerformed(ActionEvent ae) {
 
 
-                // try {
-                //     if(!(nameField.getText().equals(""))){
+                try {
+                    if(reportFile != null){
+                        int student_index = studentField.getSelectedIndex();
+                        int project_index = projectField.getSelectedIndex();
 
-                //         conn c = new conn();
-                        
-                //         int subject_id = subjectField.getSelectedIndex();
-                        
-                //         c.add_project(nameField.getText(), subjectList.get(1)[subject_id], Login.logged_in_username);
-                //         // c.add_project(nameField.getText(),subjectLabel.getText(), Login.logged_in_username);
-                        
-                //         JOptionPane.showMessageDialog(null, "Project Added");
-                //         setVisible(false);
-                //     }
-                //     else{
-                //         JOptionPane.showMessageDialog(null, "Fields can't be empty");
-                //     }
+                        String student_id_str = studentList.get(1)[student_index];
+                        String project_id_str = projectList.get(1)[project_index];
+                        String hashVal = utils.passwd_to_hash(student_id_str+project_id_str);
 
-                // } catch (Exception e) {
-                //     e.printStackTrace();
-                // }
+                        File newF = new File("submitted_files/"+hashVal+".pdf");
+                        try{
+
+                            Files.copy(reportFile.toPath(), newF.toPath(),StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        catch(IOException e){
+                            e.printStackTrace();
+                        }
+
+                        conn c = new conn();
+                        c.submit_project(Integer.parseInt(project_id_str),Integer.parseInt(student_id_str), hashVal);
+                        
+                        JOptionPane.showMessageDialog(null, "Project Submitted");
+                        setVisible(false);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Please Choose a file");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
