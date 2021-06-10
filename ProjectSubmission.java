@@ -1,25 +1,22 @@
 
-import java.awt.EventQueue;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.mysql.cj.conf.ConnectionUrlParser.Pair;
 
 public class ProjectSubmission extends JFrame { // Third Frame
 
-    JComboBox projectField;
-    JComboBox studentField;
+    JComboBox<String>projectField;
+    JComboBox<String>studentField;
 
     File reportFile = null;
 
@@ -27,12 +24,91 @@ public class ProjectSubmission extends JFrame { // Third Frame
     ArrayList<String[]> projectList;
     ArrayList<String[]> studentList;
 
-    public ProjectSubmission() {
+    
+	private JPanel contentPane;
+	private JTable table;
+
+	public ProjectSubmission(){
+		getContentPane().setForeground(Color.BLUE);
+		getContentPane().setBackground(Color.WHITE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	}
+    public void list() {
+        
+		setBounds(430, 200, 1000, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+
+		conn c = new conn();
+		
+		Box box = Box.createVerticalBox();
+		box.setBounds(0,34,1000,450);
+		
+		// table = new JTable(c.get_student_data(), new String[]{"project_name", "lol"});
+       
+
+		table = new JTable(c.get_submission_data(), new String[]{"Project Name", "Student Name", "Report File"});
+		table.setBounds(0, 34, 1000, 450);
+
+        //Disable on click edit
+        table.setDefaultEditor(Object.class, null);
+
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = table.rowAtPoint(evt.getPoint());
+                int col = table.columnAtPoint(evt.getPoint());
+                if (row >= 0 && col >= 0 && Desktop.isDesktopSupported()) {
+                    System.out.println(row+ ":" +col);
+                    int result = JOptionPane.showConfirmDialog (null, "Would you like to view the Report PDF","Warning",JOptionPane.YES_NO_OPTION);
+
+                    try{
+
+                        if(result == JOptionPane.YES_OPTION){
+                            File myFile = new File("submitted_files/" + table.getValueAt(row,col)+".pdf");
+                            Desktop.getDesktop().open(myFile);
+                            
+                        }
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(null, "Failed to open File!");
+                    }
+                    
+
+
+                }
+            }
+        });
+
+		JScrollPane pn = new JScrollPane(table);
+		box.add(pn);
+		add(box);
+
+		JButton btnExit = new JButton("Back");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Dashboard().setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnExit.setBounds(450, 500, 120, 30);
+                btnExit.setBackground(Color.BLACK);
+                btnExit.setForeground(Color.WHITE);
+		contentPane.add(btnExit);
+		
+        getContentPane().setBackground(Color.WHITE);
+	}
+
+
+    public void add() {
         getContentPane().setForeground(Color.BLUE);
         getContentPane().setBackground(Color.WHITE);
         setTitle("ADD Project");
 
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(778, 486);
         getContentPane().setLayout(null);
 
@@ -81,19 +157,7 @@ public class ProjectSubmission extends JFrame { // Third Frame
 
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
                     reportFile = chooser.getSelectedFile();
-                    
-                    // System.out.println("You chose to open this file: " +
-                    //     chooser.getSelectedFile().getName());
-                    // File newF = new File("submitted_files/"+chooser.getSelectedFile().getName());
-                    // try{
-
-                    //     Files.copy(chooser.getSelectedFile().toPath(), newF.toPath(),StandardCopyOption.REPLACE_EXISTING);
-                    // }
-                    // catch(IOException e){
-                    //     e.printStackTrace();
-                    // }
                 }
-
             }
         });
 
@@ -162,5 +226,6 @@ public class ProjectSubmission extends JFrame { // Third Frame
         setLocation(530, 200);
 
     }
+
 
 }

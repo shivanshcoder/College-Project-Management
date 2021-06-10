@@ -40,3 +40,9 @@ create table project_submission(
     foreign key(project_id) references project(id)
 );
  
+
+-- Getting Project details
+
+select project.name, subject.name as subject, teacher.name as teacher from project inner join teacher on project.teacher_id=teacher.id inner join subject on subject.id=project.subject;
+
+select project.name as project_name, student.name as student_name, report_pdf from project_submission inner join student on student.id=student_id inner join project on project.id=project_id;

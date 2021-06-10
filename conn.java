@@ -18,7 +18,7 @@ public class conn{
         }  
     } 
 
-    public void add_teacher(String name, String id, String password)throws SQLException{
+    public boolean add_teacher(String name, String id, String password)throws SQLException{
         try{
             password = utils.passwd_to_hash(password);
         }
@@ -26,31 +26,65 @@ public class conn{
             e.printStackTrace();
         }
         String q = "insert into teacher values('" + id + "', '" + name + "', '" + password + "')";
-        // String q2 = "insert into login values(" + id + ", '" + password + "')";
         
-        Statement s = c.createStatement();  
-        s.executeUpdate(q);
+        try{
+
+            Statement s = c.createStatement();  
+            s.executeUpdate(q);
+        }catch(SQLException e){
+            // Failed to save
+            return false;
+        }
+        // Saved successfully
+        return true;
         // s.executeUpdate(q2);
         
     }
 
-    public void add_student(String name)throws SQLException{
+    public boolean add_student(String name)throws SQLException{
         String q = "insert into student(name) values('" +  name + "')";
-        Statement s = c.createStatement();  
-        s.executeUpdate(q);
+
+        try{
+
+            Statement s = c.createStatement();  
+            s.executeUpdate(q);
+        }catch(SQLException e){
+            // Failed to save
+            return false;
+        }
+        // Saved successfully
+        return true;
     }
 
-    public void add_project(String name, String subject, String teacherID) throws SQLException{
+    public boolean add_project(String name, String subject, String teacherID) throws SQLException{
         String q = "insert into project(name, subject, teacher_id) values('" + name + "', '" + subject + "', '" + teacherID + "')";
-        Statement s = c.createStatement();
-        s.executeUpdate(q); 
+        
+        try{
+
+            Statement s = c.createStatement();  
+            s.executeUpdate(q);
+        }catch(SQLException e){
+            // Failed to save
+            return false;
+        }
+        // Saved successfully
+        return true;
     }
 
-    public void submit_project(int project_id, int student_id, String reportFile )throws SQLException{
+    public boolean submit_project(int project_id, int student_id, String reportFile )throws SQLException{
         String q = "insert into project_submission(project_id, student_id, report_pdf) values ('" + project_id + "', '" + student_id + "', '" + reportFile + "');";
         
-        Statement s = c.createStatement();
-        s.executeUpdate(q); 
+        
+        try{
+
+            Statement s = c.createStatement();  
+            s.executeUpdate(q);
+        }catch(SQLException e){
+            // Failed to save
+            return false;
+        }
+        // Saved successfully
+        return true;
     }
     
     
@@ -92,6 +126,113 @@ public class conn{
         return get_id_name_pair_list("project");
     } 
 
+    public String[][] get_student_data(){
+        String q = "select * from student;";
+        ArrayList< String[] > temp = new ArrayList< String[] >();
+        try{
+            
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(q);
+            while(rs.next()){
+                
+                temp.add(new String[] {
+                    rs.getString("id"),
+                    rs.getString("name")
+                });
+    
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return temp.toArray(String[][]::new);
+    }
+
+    public String[][] get_subject_data(){
+        String q = "select * from subject;";
+        ArrayList< String[] > temp = new ArrayList< String[] >();
+        try{
+            
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(q);
+            while(rs.next()){
+                
+                temp.add(new String[] {
+                    rs.getString("id"),
+                    rs.getString("name")
+                });
+    
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return temp.toArray(String[][]::new);
+    }
+
+    public String[][] get_teacher_data(){
+        String q = "select * from teacher;";
+        ArrayList< String[] > temp = new ArrayList< String[] >();
+        try{
+            
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(q);
+            while(rs.next()){
+                
+                temp.add(new String[] {
+                    rs.getString("id"),
+                    rs.getString("name")
+                });
+    
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return temp.toArray(String[][]::new);
+    }
+
+    public String[][] get_submission_data(){
+        String q = "select project.name as project_name, student.name as student_name, report_pdf from project_submission inner join student on student.id=student_id inner join project on project.id=project_id;";
+        ArrayList< String[] > temp = new ArrayList< String[] >();
+        try{
+            
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(q);
+            while(rs.next()){
+                
+                temp.add(new String[] {
+                    rs.getString("project_name"),
+                    rs.getString("student_name"),
+                    rs.getString("report_pdf")
+                });
+    
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return temp.toArray(String[][]::new);
+    }
+
+    public String[][] get_project_data(){
+        String q = "select project.name, subject.name as subject, teacher.name as teacher from project inner join teacher on project.teacher_id=teacher.id inner join subject on subject.id=project.subject;";
+        ArrayList< String[] > temp = new ArrayList< String[] >();
+        try{
+            
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(q);
+            while(rs.next()){
+                
+                temp.add(new String[] {
+                    rs.getString("project.name"),
+                    rs.getString("subject"),
+                    rs.getString("teacher")
+                });
+    
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return temp.toArray(String[][]::new);
+    }
 
     
 

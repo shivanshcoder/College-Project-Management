@@ -1,20 +1,62 @@
 
-import java.awt.EventQueue;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
-public class AddTeacher extends JFrame { // Third Frame
-
+public class Student extends JFrame {
+    
     JTextField nameField, idField;
     JPasswordField passwordField;
+    
+	private JPanel contentPane;
+	private JTable table;
 
-    public AddTeacher() {
+    public Student(){
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+	public void list() {
+
+		setBounds(430, 200, 1000, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+
+		conn c = new conn();
+		
+		Box box = Box.createVerticalBox();
+		box.setBounds(0,34,1000,450);
+		
+		table = new JTable(c.get_student_data(), new String[]{"Student ID", "Student Name"});
+		table.setBounds(0, 34, 1000, 450);
+		JScrollPane pn = new JScrollPane(table);
+		box.add(pn);
+		add(box);
+
+		JButton btnExit = new JButton("Back");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Dashboard().setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnExit.setBounds(450, 500, 120, 30);
+                btnExit.setBackground(Color.BLACK);
+                btnExit.setForeground(Color.WHITE);
+		contentPane.add(btnExit);
+		
+        getContentPane().setBackground(Color.WHITE);
+	}
+
+    
+    public void add() {
         getContentPane().setForeground(Color.BLUE);
         getContentPane().setBackground(Color.WHITE);
-        setTitle("ADD Teacher Account");
+        setTitle("ADD Student");
 
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(778, 486);
@@ -29,43 +71,20 @@ public class AddTeacher extends JFrame { // Third Frame
         nameField.setBounds(200, 30, 150, 27);
         add(nameField);
         
-
-        JLabel idLabel = new JLabel("ID");
-        idLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        idLabel.setBounds(60, 60, 150, 27);
-        add(idLabel);
-
-        idField = new JTextField();
-        idField.setBounds(200, 60, 150, 27);
-        add(idField);
-
-
-        JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        passwordLabel.setBounds(60, 90, 150, 27);
-        add(passwordLabel);
-
-        passwordField = new JPasswordField();
-        passwordField.setBounds(200, 90, 150, 27);
-        add(passwordField);
-
         JButton Next = new JButton("SAVE");
-        Next.setBounds(200, 120, 150, 30);
+        Next.setBounds(200, 60, 150, 30);
         Next.setBackground(Color.BLACK);
         Next.setForeground(Color.WHITE);
         add(Next);
 
-
         setVisible(true);
 
-
-        JLabel AddPassengers = new JLabel("ADD Teacher Account");
+        JLabel AddPassengers = new JLabel("ADD Student");
         AddPassengers.setForeground(Color.BLUE);
         AddPassengers.setFont(new Font("Tahoma", Font.PLAIN, 31));
         AddPassengers.setBounds(450, 24, 442, 35);
         add(AddPassengers);
 
-        
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("images/ProjectManagement.png"));
         Image i3 = i1.getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT);
         ImageIcon i2 = new ImageIcon(i3);
@@ -78,15 +97,17 @@ public class AddTeacher extends JFrame { // Third Frame
 
 
                 try {
-                    if(nameField.getText().equals("") || idField.getText().equals("") || passwordField.getText().equals("")){
-                        JOptionPane.showMessageDialog(null, "Fields can't be empty");
+                    if(!nameField.getText().equals("")){
+
+                        conn c = new conn();
+                        c.add_student(nameField.getText());
+                        
+                        JOptionPane.showMessageDialog(null, "Student Added");
+                        setVisible(false);
                     }
                     else{
-                        conn c = new conn();
-                        c.add_teacher(nameField.getText(),idField.getText(), passwordField.getText());
-                        
-                        JOptionPane.showMessageDialog(null, "Teacher Added");
-                        setVisible(false);
+                        JOptionPane.showMessageDialog(null, "Fields can't be empty");
+
                     }
 
                 } catch (Exception e) {

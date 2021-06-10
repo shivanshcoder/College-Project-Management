@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
 import java.lang.invoke.TypeDescriptor;
+import java.util.ArrayList;
 
 public class MainWindow extends JFrame implements ActionListener {
 
@@ -47,21 +48,14 @@ public class MainWindow extends JFrame implements ActionListener {
         b1.addActionListener(this);
         b2.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
-                new AddTeacher().setVisible(true);
+                Teacher t = new Teacher();
+                t.add();
+                t.setVisible(true);
+                setVisible(false);
             }
         });
         setVisible(true);
 
-        // while(true){
-        // lid.setVisible(false); // lid = j label
-        // try{
-        // Thread.sleep(500); //1000 = 1 second
-        // }catch(Exception e){}
-        // lid.setVisible(true);
-        // try{
-        // Thread.sleep(500);
-        // }catch(Exception e){}
-        // }
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -83,6 +77,22 @@ public class MainWindow extends JFrame implements ActionListener {
         // catch(Exception e){
         //     e.printStackTrace();
         // }
+        
+		// conn c = new conn();
+        // String data[][] = c.get_submission_data();
+        // ArrayList<String>paths = new ArrayList<String>();
+        // for(String[] tempL : data){
+        //     paths.add(tempL[1]);
+        //     tempL[1] = "File";
+        // }
+        // System.out.println(paths);
+        // Teacher ps = new Teacher();
+        // ps.listTeacher();
+        // ps.setVisible(true);
+        // Student ps = new Student();
+        // ps.listStudents();
+        // ps.setVisible(true);
+        // new Dashboard().setVisible(true);
         MainWindow window = new MainWindow();
         window.setVisible(true);
     }

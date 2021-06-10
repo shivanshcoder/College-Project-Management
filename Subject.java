@@ -1,20 +1,64 @@
 
-import java.awt.EventQueue;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
-public class AddStudent extends JFrame { // Third Frame
-
+public class Subject extends JFrame {
+    
     JTextField nameField, idField;
     JPasswordField passwordField;
+    
+	private JPanel contentPane;
+	private JTable table;
 
-    public AddStudent() {
+    public Subject(){
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+	public void list() {
+
+		setBounds(430, 200, 1000, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+
+		conn c = new conn();
+		
+		Box box = Box.createVerticalBox();
+		box.setBounds(0,34,1000,450);
+		
+		table = new JTable(c.get_student_data(), new String[]{"Subject ID", "Subject Name"});
+		table.setBounds(0, 34, 1000, 450);
+        table.setDefaultEditor(Object.class, null);
+        
+		JScrollPane pn = new JScrollPane(table);
+		box.add(pn);
+		add(box);
+
+		JButton btnExit = new JButton("Back");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Dashboard().setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnExit.setBounds(450, 500, 120, 30);
+                btnExit.setBackground(Color.BLACK);
+                btnExit.setForeground(Color.WHITE);
+		contentPane.add(btnExit);
+		
+        getContentPane().setBackground(Color.WHITE);
+	}
+
+    
+    public void add() {
         getContentPane().setForeground(Color.BLUE);
         getContentPane().setBackground(Color.WHITE);
-        setTitle("ADD Student");
+        setTitle("ADD Subject");
 
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(778, 486);
@@ -37,7 +81,7 @@ public class AddStudent extends JFrame { // Third Frame
 
         setVisible(true);
 
-        JLabel AddPassengers = new JLabel("ADD Student");
+        JLabel AddPassengers = new JLabel("ADD Subject");
         AddPassengers.setForeground(Color.BLUE);
         AddPassengers.setFont(new Font("Tahoma", Font.PLAIN, 31));
         AddPassengers.setBounds(450, 24, 442, 35);
@@ -60,7 +104,7 @@ public class AddStudent extends JFrame { // Third Frame
                         conn c = new conn();
                         c.add_student(nameField.getText());
                         
-                        JOptionPane.showMessageDialog(null, "Student Added");
+                        JOptionPane.showMessageDialog(null, "Subject Added");
                         setVisible(false);
                     }
                     else{

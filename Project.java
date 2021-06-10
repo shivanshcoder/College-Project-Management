@@ -1,28 +1,44 @@
-
-import java.awt.EventQueue;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 import java.awt.*;
-import java.awt.event.*;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+
+import javax.swing.JTable;
 import java.sql.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-import com.mysql.cj.conf.ConnectionUrlParser.Pair;
+public class Project extends JFrame {
+	Connection conn = null;
+	private JPanel contentPane;
+	private JTable table;
 
-public class AddProject extends JFrame { // Third Frame
+    private JTextField nameField;
+    private JComboBox<String>subjectField;
+    
+    private ArrayList< String[] > subjectList;
 
-    JTextField nameField;
-    JComboBox subjectField;
-    // JComboBox teacherIDField;
-    ArrayList< String[] > subjectList;
+	public Project(){
+		getContentPane().setForeground(Color.BLUE);
+		getContentPane().setBackground(Color.WHITE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    public AddProject() {
-        getContentPane().setForeground(Color.BLUE);
-        getContentPane().setBackground(Color.WHITE);
+	}
+
+    public void add() {
         setTitle("ADD Project");
 
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(778, 486);
         getContentPane().setLayout(null);
 
@@ -35,17 +51,6 @@ public class AddProject extends JFrame { // Third Frame
         nameField.setBounds(200, 30, 150, 27);
         add(nameField);
         
-
-        // JLabel subjectLabel = new JLabel("SUBJECT");
-        // subjectLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        // subjectLabel.setBounds(60, 60, 150, 27);
-        // add(subjectLabel);
-
-        // subjectField = new JTextField();
-        // subjectField.setBounds(200, 60, 150, 27);
-        // add(subjectField);
-
-
         JLabel subjectLabel = new JLabel("Subject");
         subjectLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
         subjectLabel.setBounds(60, 60, 150, 27);
@@ -59,6 +64,24 @@ public class AddProject extends JFrame { // Third Frame
         add(subjectField);
 
 
+        JButton Back = new JButton("BACK");
+        Back.setBounds(60, 120, 150, 30);
+        Back.setBackground(Color.BLACK);
+        Back.setForeground(Color.WHITE);
+        add(Back);
+
+        Back.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                if(Login.logged_in_username == null){
+                    new Login().setVisible(true);
+                    setVisible(false);
+                }
+                else{
+                    new Dashboard().setVisible(true);
+                    setVisible(false);
+                }
+            }
+        });
 
         JButton Next = new JButton("SAVE");
         Next.setBounds(200, 120, 150, 30);
@@ -114,4 +137,41 @@ public class AddProject extends JFrame { // Third Frame
 
     }
 
+	
+	public void list() {
+
+		setBounds(430, 200, 1000, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+
+		conn c = new conn();
+		
+		Box box = Box.createVerticalBox();
+		box.setBounds(0,34,1000,450);
+		
+		table = new JTable(c.get_project_data(), new String[]{"Project Name", "Subject Name", "Teacher Name"});
+		table.setBounds(0, 34, 1000, 450);
+        table.setDefaultEditor(Object.class, null);
+
+		JScrollPane pn = new JScrollPane(table);
+		box.add(pn);
+		add(box);
+
+		JButton btnExit = new JButton("Back");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Dashboard().setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnExit.setBounds(450, 500, 120, 30);
+                btnExit.setBackground(Color.BLACK);
+                btnExit.setForeground(Color.WHITE);
+		contentPane.add(btnExit);
+		
+        getContentPane().setBackground(Color.WHITE);
+	}
 }

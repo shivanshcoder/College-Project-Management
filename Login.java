@@ -16,6 +16,7 @@ public class Login extends JFrame implements ActionListener{
     Login(){
 
         super("Login");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setLayout(null);
 
