@@ -72,14 +72,10 @@ public class Project extends JFrame {
 
         Back.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
-                if(Login.logged_in_username == null){
-                    new Login().setVisible(true);
-                    setVisible(false);
-                }
-                else{
-                    new Dashboard().setVisible(true);
-                    setVisible(false);
-                }
+                
+                // new Dashboard().setVisible(true);
+                setVisible(false);
+                
             }
         });
 
@@ -91,7 +87,7 @@ public class Project extends JFrame {
 
         setVisible(true);
 
-        JLabel AddPassengers = new JLabel("ADD Teacher Account");
+        JLabel AddPassengers = new JLabel("ADD Project");
         AddPassengers.setForeground(Color.BLUE);
         AddPassengers.setFont(new Font("Tahoma", Font.PLAIN, 31));
         AddPassengers.setBounds(450, 24, 442, 35);
@@ -116,7 +112,6 @@ public class Project extends JFrame {
                         int subject_id = subjectField.getSelectedIndex();
                         
                         c.add_project(nameField.getText(), subjectList.get(1)[subject_id], Login.logged_in_username);
-                        // c.add_project(nameField.getText(),subjectLabel.getText(), Login.logged_in_username);
                         
                         JOptionPane.showMessageDialog(null, "Project Added");
                         setVisible(false);

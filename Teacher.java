@@ -1,9 +1,7 @@
 
-import java.awt.EventQueue;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -95,7 +93,7 @@ public class Teacher extends JFrame { // Third Frame
         add(passwordField);
 
         JButton Back = new JButton("BACK");
-        Back.setBounds(60, 120, 150, 30);
+        Back.setBounds(50, 120, 150, 30);
         Back.setBackground(Color.BLACK);
         Back.setForeground(Color.WHITE);
         add(Back);
@@ -103,7 +101,7 @@ public class Teacher extends JFrame { // Third Frame
         Back.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                 if(Login.logged_in_username == null){
-                    new Login().setVisible(true);
+                    new MainWindow().setVisible(true);
                     setVisible(false);
                 }
                 else{
@@ -130,11 +128,11 @@ public class Teacher extends JFrame { // Third Frame
         add(AddPassengers);
 
         
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("images/ProjectManagement.png"));
-        Image i3 = i1.getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT);
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("images/auth.png"));
+        Image i3 = i1.getImage().getScaledInstance(300,300, Image.SCALE_DEFAULT);
         ImageIcon i2 = new ImageIcon(i3);
         JLabel image = new JLabel(i2);
-        image.setBounds(410, 80, 480, 410);
+        image.setBounds(450, 120, 300,300);
         add(image);
 
         Next.addActionListener(new ActionListener() {

@@ -107,7 +107,7 @@ public class ProjectSubmission extends JFrame { // Third Frame
     public void add() {
         getContentPane().setForeground(Color.BLUE);
         getContentPane().setBackground(Color.WHITE);
-        setTitle("ADD Project");
+        setTitle("Make Project Submission");
 
         setSize(778, 486);
         getContentPane().setLayout(null);
@@ -157,7 +157,26 @@ public class ProjectSubmission extends JFrame { // Third Frame
 
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
                     reportFile = chooser.getSelectedFile();
+                    reportPath.setText("File Chosen");
+                    reportPath.setToolTipText(reportFile.getName());
+                    reportPath.setBackground(Color.GREEN);
+                    reportPath.setForeground(Color.BLACK);
+
                 }
+            }
+        });
+
+        
+        JButton Back = new JButton("BACK");
+        Back.setBounds(50, 120, 150, 30);
+        Back.setBackground(Color.BLACK);
+        Back.setForeground(Color.WHITE);
+        add(Back);
+
+        Back.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                // new Dashboard().setVisible(true);
+                setVisible(false);
             }
         });
 
@@ -170,7 +189,7 @@ public class ProjectSubmission extends JFrame { // Third Frame
 
         setVisible(true);
 
-        JLabel AddPassengers = new JLabel("ADD Teacher Account");
+        JLabel AddPassengers = new JLabel("Make Project Submission");
         AddPassengers.setForeground(Color.BLUE);
         AddPassengers.setFont(new Font("Tahoma", Font.PLAIN, 31));
         AddPassengers.setBounds(450, 24, 442, 35);

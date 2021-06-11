@@ -1,9 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.File;
-import java.lang.invoke.TypeDescriptor;
-import java.util.ArrayList;
 
 public class MainWindow extends JFrame implements ActionListener {
 
@@ -26,7 +23,7 @@ public class MainWindow extends JFrame implements ActionListener {
         b2.setBackground(Color.WHITE);
         b2.setForeground(Color.BLACK);
 
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("images/ProjectManagement.png"));
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("images/front.jpg"));
         Image i3 = i1.getImage().getScaledInstance(500, 390, Image.SCALE_DEFAULT);
         ImageIcon i2 = new ImageIcon(i3);
         l1 = new JLabel(i2);
@@ -39,21 +36,21 @@ public class MainWindow extends JFrame implements ActionListener {
 
         b1.setBounds(600, 325, 125, 50);
         b2.setBounds(600, 265, 125, 50);
-        // l1.setBounds(0, 0, 1366, 600);
-        
+
         add(b2);
         add(b1);
         add(l1);
 
         b1.addActionListener(this);
-        b2.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
+        b2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
                 Teacher t = new Teacher();
                 t.add();
                 t.setVisible(true);
                 setVisible(false);
             }
         });
+
         setVisible(true);
 
     }
@@ -66,33 +63,7 @@ public class MainWindow extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-    
-        // try{
 
-        //     if(Desktop.isDesktopSupported()){
-        //         File file = new File("javaflow.pdf");
-        //         Desktop.getDesktop().open(file);
-        //     }
-        // }
-        // catch(Exception e){
-        //     e.printStackTrace();
-        // }
-        
-		// conn c = new conn();
-        // String data[][] = c.get_submission_data();
-        // ArrayList<String>paths = new ArrayList<String>();
-        // for(String[] tempL : data){
-        //     paths.add(tempL[1]);
-        //     tempL[1] = "File";
-        // }
-        // System.out.println(paths);
-        // Teacher ps = new Teacher();
-        // ps.listTeacher();
-        // ps.setVisible(true);
-        // Student ps = new Student();
-        // ps.listStudents();
-        // ps.setVisible(true);
-        // new Dashboard().setVisible(true);
         MainWindow window = new MainWindow();
         window.setVisible(true);
     }
