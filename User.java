@@ -4,8 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
 
-public class Teacher extends JFrame { // Third Frame
+public class User extends JFrame { // Third Frame
 
     JTextField nameField, idField;
     JPasswordField passwordField;
@@ -13,25 +14,36 @@ public class Teacher extends JFrame { // Third Frame
 	private JPanel contentPane;
 	private JTable table;
 
-    public Teacher(){
+    private String[] colNames = new String[]{"ID", "NAME"};
+
+    public User(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-	public void list() {
+    public void listViewStudents(){
+        try{
+
+            conn c = new conn();
+            
+            listView(c.get_student_data());
+        }catch(Exception e){
+            
+        }
+
+    }
+
+	protected void listView(String[][] listViewData ) {
 
 		setBounds(430, 200, 1000, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-
-		conn c = new conn();
 		
 		Box box = Box.createVerticalBox();
 		box.setBounds(0,34,1000,450);
 		
-		table = new JTable(c.get_teacher_data(), new String[]{"Teacher ID", "Teacher Name"});
+		table = new JTable(listViewData, colNames);
 		table.setBounds(0, 34, 1000, 450);
         table.setDefaultEditor(Object.class, null);
 
@@ -54,10 +66,10 @@ public class Teacher extends JFrame { // Third Frame
         getContentPane().setBackground(Color.WHITE);
 	}
 
-    public void add() {
+    public void addUser() {
         getContentPane().setForeground(Color.BLUE);
         getContentPane().setBackground(Color.WHITE);
-        setTitle("ADD Teacher Account");
+        setTitle("ADD Account");
 
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(778, 486);
@@ -73,7 +85,7 @@ public class Teacher extends JFrame { // Third Frame
         add(nameField);
         
 
-        JLabel idLabel = new JLabel("ID");
+        JLabel idLabel = new JLabel("USERNAME");
         idLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
         idLabel.setBounds(60, 60, 150, 27);
         add(idLabel);
@@ -83,7 +95,7 @@ public class Teacher extends JFrame { // Third Frame
         add(idField);
 
 
-        JLabel passwordLabel = new JLabel("Password");
+        JLabel passwordLabel = new JLabel("PASSWORD");
         passwordLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
         passwordLabel.setBounds(60, 90, 150, 27);
         add(passwordLabel);
@@ -92,8 +104,18 @@ public class Teacher extends JFrame { // Third Frame
         passwordField.setBounds(200, 90, 150, 27);
         add(passwordField);
 
+
+        JLabel RoleLabel = new JLabel("ROLE");
+        RoleLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        RoleLabel.setBounds(60, 120, 150, 27);
+        add(RoleLabel);
+    
+        JComboBox<String>roleField = new JComboBox<String>( new String[]{"Teacher", "Student"} );
+        roleField.setBounds(200, 120, 140, 27);
+        add(roleField);
+
         JButton Back = new JButton("BACK");
-        Back.setBounds(50, 120, 150, 30);
+        Back.setBounds(50, 180, 150, 30);
         Back.setBackground(Color.BLACK);
         Back.setForeground(Color.WHITE);
         add(Back);
@@ -112,7 +134,7 @@ public class Teacher extends JFrame { // Third Frame
         });
 
         JButton Next = new JButton("SAVE");
-        Next.setBounds(200, 120, 150, 30);
+        Next.setBounds(200, 180, 150, 30);
         Next.setBackground(Color.BLACK);
         Next.setForeground(Color.WHITE);
         add(Next);
@@ -121,7 +143,7 @@ public class Teacher extends JFrame { // Third Frame
         setVisible(true);
 
 
-        JLabel AddPassengers = new JLabel("ADD Teacher Account");
+        JLabel AddPassengers = new JLabel("ADD Account");
         AddPassengers.setForeground(Color.BLUE);
         AddPassengers.setFont(new Font("Tahoma", Font.PLAIN, 31));
         AddPassengers.setBounds(450, 24, 442, 35);
@@ -137,21 +159,20 @@ public class Teacher extends JFrame { // Third Frame
 
         Next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-
-
+                
                 try {
                     if(nameField.getText().equals("") || idField.getText().equals("") || passwordField.getText().equals("")){
                         JOptionPane.showMessageDialog(null, "Fields can't be empty");
                     }
                     else{
                         conn c = new conn();
-                        boolean ret_val = c.add_teacher(nameField.getText(),idField.getText(), passwordField.getText());
+                        boolean ret_val = c.add_user(nameField.getText(),idField.getText(), passwordField.getText(), roleField.getSelectedIndex());
                         if(ret_val){
-                            JOptionPane.showMessageDialog(null, "Teacher Added");   
+                            JOptionPane.showMessageDialog(null, "User Added");   
                             setVisible(false);
                         }
                         else{
-                            JOptionPane.showMessageDialog(null, "Error! Teacher ID already exists");   
+                            JOptionPane.showMessageDialog(null, "Error! Username already exists");   
                         }
                     }
 
@@ -165,6 +186,11 @@ public class Teacher extends JFrame { // Third Frame
         setVisible(true);
         setLocation(530, 200);
 
+    }
+    public static void main(String[] args) {
+        User s = new User();
+        s.addUser();
+        s.setVisible(true);
     }
 
 }

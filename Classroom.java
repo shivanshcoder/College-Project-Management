@@ -19,7 +19,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Project extends JFrame {
+public class Classroom extends JFrame {
 	Connection conn = null;
 	private JPanel contentPane;
 	private JTable table;
@@ -31,7 +31,7 @@ public class Project extends JFrame {
 
     conn c;
 
-	public Project(){
+	public Classroom(){
 		getContentPane().setForeground(Color.BLUE);
 		getContentPane().setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,12 +39,12 @@ public class Project extends JFrame {
 	}
 
     public void add() {
-        setTitle("ADD Project");
+        setTitle("ADD Classroom");
 
         setSize(778, 486);
         getContentPane().setLayout(null);
 
-        JLabel nameLabel = new JLabel("PROJECT NAME");
+        JLabel nameLabel = new JLabel("CLASSNAME");
         nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
         nameLabel.setBounds(60, 30, 150, 27);
         add(nameLabel);
@@ -53,25 +53,6 @@ public class Project extends JFrame {
         nameField.setBounds(200, 30, 150, 27);
         add(nameField);
         
-        JLabel subjectLabel = new JLabel("Subject");
-        subjectLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        subjectLabel.setBounds(60, 60, 150, 27);
-        add(subjectLabel);
-
-        try{
-            c = new conn();
-            subjectList = c.subject_list();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return;
-        }
-
-        subjectField = new JComboBox<String>(subjectList.get(0));
-        subjectField.setBounds(200, 60, 150, 27);
-        add(subjectField);
-
-
         JButton Back = new JButton("BACK");
         Back.setBounds(60, 120, 150, 30);
         Back.setBackground(Color.BLACK);
