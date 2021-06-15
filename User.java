@@ -6,10 +6,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
 
-public class User extends JFrame { // Third Frame
+public class User extends UtilFrame { // Third Frame
 
-    JTextField nameField, idField;
+    JTextField nameField, usernameField;
     JPasswordField passwordField;
+    JComboBox<String>roleField;
 
 	private JPanel contentPane;
 	private JTable table;
@@ -26,10 +27,8 @@ public class User extends JFrame { // Third Frame
             conn c = new conn();
             
             listView(c.get_student_data());
-        }catch(Exception e){
-            
+        }catch(Exception e){   
         }
-
     }
 
 	protected void listView(String[][] listViewData ) {
@@ -54,7 +53,7 @@ public class User extends JFrame { // Third Frame
 		JButton btnExit = new JButton("Back");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Dashboard().setVisible(true);
+				new Dashboard(0).setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -75,71 +74,47 @@ public class User extends JFrame { // Third Frame
         setSize(778, 486);
         getContentPane().setLayout(null);
 
-        JLabel nameLabel = new JLabel("NAME");
-        nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        nameLabel.setBounds(60, 30, 150, 27);
-        add(nameLabel);
+        addInputField("NAME", (nameField = new JTextField()));
+        addInputField("USERNAME", (usernameField = new JTextField()));
+        addInputField("ROLE", (roleField = new JComboBox<String>( new String[]{"Teacher", "Student"} )));
 
-        nameField = new JTextField();
-        nameField.setBounds(200, 30, 150, 27);
-        add(nameField);
-        
-
-        JLabel idLabel = new JLabel("USERNAME");
-        idLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        idLabel.setBounds(60, 60, 150, 27);
-        add(idLabel);
-
-        idField = new JTextField();
-        idField.setBounds(200, 60, 150, 27);
-        add(idField);
-
-
-        JLabel passwordLabel = new JLabel("PASSWORD");
-        passwordLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        passwordLabel.setBounds(60, 90, 150, 27);
-        add(passwordLabel);
-
-        passwordField = new JPasswordField();
-        passwordField.setBounds(200, 90, 150, 27);
-        add(passwordField);
-
-
-        JLabel RoleLabel = new JLabel("ROLE");
-        RoleLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        RoleLabel.setBounds(60, 120, 150, 27);
-        add(RoleLabel);
-    
-        JComboBox<String>roleField = new JComboBox<String>( new String[]{"Teacher", "Student"} );
-        roleField.setBounds(200, 120, 140, 27);
-        add(roleField);
-
-        JButton Back = new JButton("BACK");
-        Back.setBounds(50, 180, 150, 30);
-        Back.setBackground(Color.BLACK);
-        Back.setForeground(Color.WHITE);
-        add(Back);
-
-        Back.addActionListener(new ActionListener(){
+        enableBackBtn(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                 if(Login.logged_in_username == null){
                     new MainWindow().setVisible(true);
                     setVisible(false);
                 }
                 else{
-                    new Dashboard().setVisible(true);
+                    new Dashboard(0).setVisible(true);
                     setVisible(false);
                 }
             }
         });
 
-        JButton Next = new JButton("SAVE");
-        Next.setBounds(200, 180, 150, 30);
-        Next.setBackground(Color.BLACK);
-        Next.setForeground(Color.WHITE);
-        add(Next);
+        enableSavebtn(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                
+                try {
+                    if(nameField.getText().equals("") || usernameField.getText().equals("") || passwordField.getText().equals("")){
+                        JOptionPane.showMessageDialog(null, "Fields can't be empty");
+                    }
+                    else{
+                        conn c = new conn();
+                        boolean ret_val = c.add_user(nameField.getText(),usernameField.getText(), passwordField.getText(), roleField.getSelectedIndex());
+                        if(ret_val){
+                            JOptionPane.showMessageDialog(null, "User Added");   
+                            setVisible(false);
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Error! Username already exists");   
+                        }
+                    }
 
-
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         setVisible(true);
 
 
@@ -156,31 +131,6 @@ public class User extends JFrame { // Third Frame
         JLabel image = new JLabel(i2);
         image.setBounds(450, 120, 300,300);
         add(image);
-
-        Next.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                
-                try {
-                    if(nameField.getText().equals("") || idField.getText().equals("") || passwordField.getText().equals("")){
-                        JOptionPane.showMessageDialog(null, "Fields can't be empty");
-                    }
-                    else{
-                        conn c = new conn();
-                        boolean ret_val = c.add_user(nameField.getText(),idField.getText(), passwordField.getText(), roleField.getSelectedIndex());
-                        if(ret_val){
-                            JOptionPane.showMessageDialog(null, "User Added");   
-                            setVisible(false);
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(null, "Error! Username already exists");   
-                        }
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
         setSize(900, 600);
         setVisible(true);

@@ -102,8 +102,7 @@ create table project_submission(
 
 
 select user.username, (select count(*) from teacher where username='abcd') as teacher, (select count(*) from student where username='abcd') as student from user
-where user.username="abcd" and user.password="88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589";
-
+where;
 -- Getting Project details
 
 select project.name, subject.name as subject, teacher.name as teacher from project inner join teacher on project.teacher_id=teacher.id inner join subject on subject.id=project.subject;
