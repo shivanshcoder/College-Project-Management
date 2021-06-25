@@ -1,7 +1,7 @@
-create database hms;
+create database db_cpm_old;
 
 
-use hms;
+use db_cpm_old;
 
 drop table student;
 drop table teacher;
@@ -13,7 +13,7 @@ create table teacher(
     name varchar(20),
     password varchar(64)
 );
-0
+
 create table student(
     id int auto_increment primary key,
     name varchar(20)

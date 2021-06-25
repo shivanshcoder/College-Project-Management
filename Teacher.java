@@ -42,7 +42,7 @@ public class Teacher extends JFrame { // Third Frame
 		JButton btnExit = new JButton("Back");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Dashboard().setVisible(true);
+				//new Dashboard().setVisible(true);
 				setVisible(false);
 			}
 		});

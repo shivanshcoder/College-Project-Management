@@ -91,7 +91,7 @@ public class ProjectSubmission extends JFrame { // Third Frame
 		JButton btnExit = new JButton("Back");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Dashboard().setVisible(true);
+				//new Dashboard().setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -207,9 +207,9 @@ public class ProjectSubmission extends JFrame { // Third Frame
 
 
                 try {
-                    if(reportFile != null){
-                        int student_index = studentField.getSelectedIndex();
-                        int project_index = projectField.getSelectedIndex();
+                    int student_index = studentField.getSelectedIndex();
+                    int project_index = projectField.getSelectedIndex();
+                    if((reportFile != null) && (student_index != -1) && (project_index != -1)){
 
                         String student_id_str = studentList.get(1)[student_index];
                         String project_id_str = projectList.get(1)[project_index];
@@ -219,19 +219,20 @@ public class ProjectSubmission extends JFrame { // Third Frame
                         try{
 
                             Files.copy(reportFile.toPath(), newF.toPath(),StandardCopyOption.REPLACE_EXISTING);
+
+                            conn c = new conn();
+                            c.submit_project(Integer.parseInt(project_id_str),Integer.parseInt(student_id_str), hashVal);
+                            
+                            JOptionPane.showMessageDialog(null, "Project Submitted");
+                            setVisible(false);
                         }
                         catch(IOException e){
                             e.printStackTrace();
                         }
 
-                        conn c = new conn();
-                        c.submit_project(Integer.parseInt(project_id_str),Integer.parseInt(student_id_str), hashVal);
-                        
-                        JOptionPane.showMessageDialog(null, "Project Submitted");
-                        setVisible(false);
                     }
                     else{
-                        JOptionPane.showMessageDialog(null, "Please Choose a file");
+                        JOptionPane.showMessageDialog(null, "Fields can't be left empty");
                     }
 
                 } catch (Exception e) {

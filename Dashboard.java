@@ -106,7 +106,7 @@ public class Dashboard extends JFrame {
 					Project p = new Project();
 					p.list();
 					p.setVisible(true);
-					setVisible(false);
+					// setVisible(false);
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -128,8 +128,8 @@ public class Dashboard extends JFrame {
 					ProjectSubmission p = new ProjectSubmission();
 					p.list();
 					p.setVisible(true);
-					setVisible(false);
-					setVisible(false);
+					// setVisible(false);
+					// setVisible(false);
 
 				} catch (Exception e1) {
 					e1.printStackTrace();

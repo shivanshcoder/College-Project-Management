@@ -158,7 +158,7 @@ public class Project extends JFrame {
 		JButton btnExit = new JButton("Back");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Dashboard().setVisible(true);
+				//new Dashboard().setVisible(true);
 				setVisible(false);
 			}
 		});

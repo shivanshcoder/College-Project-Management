@@ -47,7 +47,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 Teacher t = new Teacher();
                 t.add();
                 t.setVisible(true);
-                setVisible(false);
+                // setVisible(false);
             }
         });
 

@@ -4,6 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.cj.conf.ConnectionUrlParser.Pair;  
 
 public class conn{
@@ -11,7 +13,7 @@ public class conn{
     public conn(){  
         try{  
             Class.forName("com.mysql.cj.jdbc.Driver");  
-            this.c = DriverManager.getConnection("jdbc:mysql:///db_cpm","root","root"); 
+            this.c = DriverManager.getConnection("jdbc:mysql:///db_cpm_old","root","root"); 
             
         }catch(Exception e){ 
             System.out.println(e);
@@ -41,26 +43,73 @@ public class conn{
         
     }
 
-    public boolean add_student(String name)throws SQLException{
-        String q = "insert into student(name) values('" +  name + "')";
+    public void add_student(String name)throws SQLException{
+        String q = "insert into student(name) values('" +  name + "');";
 
+        Statement s = c.createStatement();  
+        s.executeUpdate(q);
+    }
+    public void add_subject(String name)throws SQLException{
+        String q = "insert into subject(name) values('" +  name + "');";
+
+        Statement s = c.createStatement();  
+        s.executeUpdate(q);
+    }
+
+    // public ArrayList<String> get_student_row(int id)throws SQLException{
+    //     String q = "select * from student where id="+id+";";
+
+    //     ArrayList< String > temp = new ArrayList< String >();
+    //     try{
+            
+    //         Statement s = c.createStatement();
+    //         ResultSet rs = s.executeQuery(q);
+    //         while(rs.next()){
+                
+    //             temp.add(
+    //                 rs.getString("name")
+    //             );
+    
+    //         }
+    //     }catch(Exception e){
+    //         e.printStackTrace();
+    //     }
+    //     return temp;
+
+    // }
+
+    public void update_student(int id, String newName)throws SQLException{
+        String q = "update student set name='"+newName+"' where id="+id+";";
+
+        Statement s = c.createStatement();
+        s.executeUpdate(q);
+    }
+
+    public void delete_student(int id) throws SQLException{
+        String q = "delete from student where id="+id+";";
+        Statement s = c.createStatement();
+        s.executeUpdate(q);
+    }
+    
+
+
+    public static void main(String[] args) {
         try{
+        //     conn c = new conn();
+        //     c.delete_student(2);
+        String path = JOptionPane.showInputDialog("Enter a path");
+        System.out.println(path);
+    
+    }
+        catch(Exception e){
 
-            Statement s = c.createStatement();  
-            s.executeUpdate(q);
-        }catch(SQLException e){
-            // Failed to save
-            return false;
         }
-        // Saved successfully
-        return true;
     }
 
     public boolean add_project(String name, String subject, String teacherID) throws SQLException{
         String q = "insert into project(name, subject, teacher_id) values('" + name + "', '" + subject + "', '" + teacherID + "')";
         
         try{
-
             Statement s = c.createStatement();  
             s.executeUpdate(q);
         }catch(SQLException e){

@@ -31,7 +31,7 @@ public class Subject extends JFrame {
 		Box box = Box.createVerticalBox();
 		box.setBounds(0,34,1000,450);
 		
-		table = new JTable(c.get_student_data(), new String[]{"Subject ID", "Subject Name"});
+		table = new JTable(c.get_subject_data(), new String[]{"Subject ID", "Subject Name"});
 		table.setBounds(0, 34, 1000, 450);
         table.setDefaultEditor(Object.class, null);
         
@@ -42,7 +42,7 @@ public class Subject extends JFrame {
 		JButton btnExit = new JButton("Back");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Dashboard().setVisible(true);
+				//new Dashboard().setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -102,7 +102,7 @@ public class Subject extends JFrame {
                     if(!nameField.getText().equals("")){
 
                         conn c = new conn();
-                        c.add_student(nameField.getText());
+                        c.add_subject(nameField.getText());
                         
                         JOptionPane.showMessageDialog(null, "Subject Added");
                         setVisible(false);
