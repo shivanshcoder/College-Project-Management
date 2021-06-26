@@ -13,7 +13,7 @@ public class conn{
     public conn(){  
         try{  
             Class.forName("com.mysql.cj.jdbc.Driver");  
-            this.c = DriverManager.getConnection("jdbc:mysql:///db_cpm_old","root","root"); 
+            this.c = DriverManager.getConnection("jdbc:mysql:///db_cpm_old","newuser","root"); 
             
         }catch(Exception e){ 
             System.out.println(e);
@@ -261,8 +261,16 @@ public class conn{
         return temp.toArray(String[][]::new);
     }
 
-    public String[][] get_project_data(){
-        String q = "select project.name, subject.name as subject, teacher.name as teacher from project inner join teacher on project.teacher_id=teacher.id inner join subject on subject.id=project.subject;";
+    public String[][] get_project_data(String usernameFilter){
+        String q = "select project.name, subject.name as subject, teacher.name as teacher from project inner join teacher on project.teacher_id=teacher.id inner join subject on subject.id=project.subject";
+        
+        if(usernameFilter != null){
+            q+=" where project.teacher_id='"+usernameFilter+"';";
+        }
+        else{
+            q+=";";
+        }
+        
         ArrayList< String[] > temp = new ArrayList< String[] >();
         try{
             

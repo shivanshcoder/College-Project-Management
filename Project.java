@@ -145,15 +145,31 @@ public class Project extends JFrame {
 		conn c = new conn();
 		
 		Box box = Box.createVerticalBox();
-		box.setBounds(0,34,1000,450);
+		box.setBounds(0,64,1000,400);
 		
-		table = new JTable(c.get_project_data(), new String[]{"Project Name", "Subject Name", "Teacher Name"});
-		table.setBounds(0, 34, 1000, 450);
+		table = new JTable(c.get_project_data(Login.logged_in_username), new String[]{"Project Name", "Subject Name", "Teacher Name"});
+		table.setBounds(0, 64, 1000, 400);
         table.setDefaultEditor(Object.class, null);
 
 		JScrollPane pn = new JScrollPane(table);
 		box.add(pn);
-		add(box);
+
+		Box box2 = Box.createVerticalBox();
+		box2.setBounds(0,64,1000,400);
+		
+		JTable table2 = new JTable(c.get_project_data(null), new String[]{"Project Name", "Subject Name", "Teacher Name"});
+		table2.setBounds(0, 64, 1000, 400);
+        table2.setDefaultEditor(Object.class, null);
+
+		JScrollPane pn2 = new JScrollPane(table2);
+		box2.add(pn2);
+		// add(box);
+
+        JTabbedPane tabPane = new JTabbedPane();
+        tabPane.setBounds(0,34,1000,450);
+        tabPane.add("Your Projects",box);
+        tabPane.add("All Projects",box2);
+        add(tabPane);
 
 		JButton btnExit = new JButton("Back");
 		btnExit.addActionListener(new ActionListener() {
@@ -168,5 +184,6 @@ public class Project extends JFrame {
 		contentPane.add(btnExit);
 		
         getContentPane().setBackground(Color.WHITE);
+        repaint();
 	}
 }
